@@ -19,6 +19,7 @@ csv = pd.read_csv('C:\\temp\\emb0481.csv',header=None, sep=";")
 for index, row in csv.iterrows():
     try:
         if row[2] == 'N':
+            print(row[2])
             data = {"chave_nfe": f"{row[1]}"}
             response = requests.post(url, headers=headers, data=json.dumps(data))
             response_dados = response.json()
@@ -31,7 +32,7 @@ for index, row in csv.iterrows():
             data = comando_data.strftime("%Y/%m/%d, %H:%M:%S")
 
             for item in tracking:
-                ocorrencia = item["ocorrencia"]
+                ocorrencia = item["ocorrencia"].split(' (')[0]
                 select = f"SELECT situacao FROM rastreiodados WHERE nfe = '{nro_nf}' AND situacao = '{ocorrencia}' AND nome = 'QFAZ'"
                 conexao.execute(select)
 
